@@ -1,4 +1,5 @@
 #!/usr/bin/python3
-for dig1 in range(0, 10):
-    for dig2 in range(dig1 + 1, 10):
-        print("{}{}".format(dig1, dig2), end=", ")
+for digit1 in range(0, 10):
+    for digit2 in range(digit1 + 1, 10):
+        print("{}{}".format(digit1, digit2), end=", ")
+
