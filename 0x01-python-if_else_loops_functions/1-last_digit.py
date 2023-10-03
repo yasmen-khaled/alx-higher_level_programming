@@ -11,4 +11,4 @@ if number < 0:
     elif num == 0:
         print("0")
     else:
-        print("less than 6 and not 0")
+print("less than 6 and not 0" )
