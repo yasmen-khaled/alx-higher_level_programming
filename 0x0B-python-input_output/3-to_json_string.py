@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-"""Defines a string"""
+"""Defines a str"""
 import json
 
 
