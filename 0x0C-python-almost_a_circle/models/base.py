@@ -3,6 +3,7 @@
 """Defines a base model class."""
 import json
 
+
 class BaseModel:
     """BaseModel class"""
 
