@@ -81,7 +81,7 @@ def save_to_file_csv(cls, list_objs):
                     writer.writerow(obj.to_dictionary())
 
     @classmethod
-    def _file_csv(cls):
+    def load_from_file_csv(cls):
         """Return"""
         filename = cls.__name__ + ".csv"
         try:
