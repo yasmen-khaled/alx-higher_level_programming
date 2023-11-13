@@ -3,7 +3,6 @@
 """Defines a base model class."""
 import json
 
-
 class BaseModel:
     """BaseModel class"""
 
@@ -37,7 +36,7 @@ class BaseModel:
 
     @staticmethod
     def from_json_string(json_str):
-       """Convert JSON string to list."""
+        """Convert JSON string to list."""
         if json_str is None or json_str == "[]":
             return []
         return json.loads(json_str)
@@ -55,7 +54,7 @@ class BaseModel:
 
     @classmethod
     def load_from_file(cls):
-      """Load list of objects from a JSON file."""
+        """Load list of objects from a JSON file."""
         file_name = str(cls.__name__) + ".json"
         try:
             with open(file_name, "r") as json_file:
