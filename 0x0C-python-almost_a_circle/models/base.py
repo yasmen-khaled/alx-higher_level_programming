@@ -3,62 +3,63 @@
 """Defines a base model class."""
 import json
 
-class BaseModel:
-    """BaseModel class"""
 
-    __object_count = 0
+class Base:
+    """Base class for other classes."""
 
-    def __init__(self, identity=None):
-        """Initialize a new BaseModel."""
-        if identity is not None:
-            self.identity = identity
+    __nb_objects = 0
+
+    def __init__(self, id=None):
+        """Initialize a new instance of the Base class."""
+        if id is not None:
+            self.id = id
         else:
-            BaseModel.__object_count += 1
-            self.identity = BaseModel.__object_count
+            Base.__nb_objects += 1
+            self.id = Base.__nb_objects
 
     @staticmethod
-    def to_json_string(dict_list):
-        """Convert list of dictionaries to JSON string."""
-        if dict_list is None or dict_list == []:
+    def to_json_string(list_dictionaries):
+        """Convert a list of dictionaries to a JSON string."""
+        if list_dictionaries is None or list_dictionaries == []:
             return "[]"
-        return json.dumps(dict_list)
+        return json.dumps(list_dictionaries)
 
     @classmethod
-    def save_to_file(cls, object_list):
-        """Save list of objects to a JSON file."""
-        file_name = cls.__name__ + ".json"
-        with open(file_name, "w") as json_file:
-            if object_list is None:
-                json_file.write("[]")
+    def save_to_file(cls, list_objs):
+        """Save a list of objects to a JSON file."""
+        filename = cls.__name__ + ".json"
+        with open(filename, "w") as jsonfile:
+            if list_objs is None:
+                jsonfile.write("[]")
             else:
-                dict_list = [obj.to_dictionary() for obj in object_list]
-                json_file.write(BaseModel.to_json_string(dict_list))
+                list_dicts = [o.to_dictionary() for o in list_objs]
+                jsonfile.write(Base.to_json_string(list_dicts))
 
     @staticmethod
-    def from_json_string(json_str):
-       """Convert JSON string to list."""
-        if json_str is None or json_str == "[]":
+    def from_json_string(json_string):
+        """Convert a JSON string to a list of dictionaries."""
+        if json_string is None or json_string == "[]":
             return []
-        return json.loads(json_str)
+        return json.loads(json_string)
 
     @classmethod
-    def create(cls, **attributes):
-        """Create a new instance from a dictionary of attributes."""
-        if attributes and attributes != {}:
+    def create(cls, **dictionary):
+        """Create a new instance of the class from a dictionary."""
+        if dictionary and dictionary != {}:
             if cls.__name__ == "Rectangle":
-                new_instance = cls(1, 1)
+                new = cls(1, 1)
             else:
-                new_instance = cls(1)
-            new_instance.update(**attributes)
-            return new_instance
+                new = cls(1)
+            new.update(**dictionary)
+            return new
 
     @classmethod
     def load_from_file(cls):
-      """Load list of objects from a JSON file."""
-        file_name = str(cls.__name__) + ".json"
+        """Load a list of objects from a JSON file."""
+        filename = str(cls.__name__) + ".json"
         try:
-            with open(file_name, "r") as json_file:
-                dict_list = BaseModel.from_json_string(json_file.read())
-                return [cls.create(**dict) for dict in dict_list]
+            with open(filename, "r") as jsonfile:
+                list_dicts = Base.from_json_string(jsonfile.read())
+                return [cls.create(**d) for d in list_dicts]
         except IOError:
             return []
