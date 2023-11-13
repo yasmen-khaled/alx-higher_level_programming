@@ -4,7 +4,6 @@
 import json
 
 
-
 class Base:
     """Base"""
 
