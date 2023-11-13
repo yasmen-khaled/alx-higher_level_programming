@@ -15,7 +15,7 @@ class Rectangle(Base):
         return self.properties[key]
 
     def __setitem__(self, key, value):
-        if type(value) != int:
+        if not isinstance(value, int):
             raise TypeError(f"{key} must be an integer")
         if value <= 0 and key in ['width', 'height']:
             raise ValueError(f"{key} must be > 0")
