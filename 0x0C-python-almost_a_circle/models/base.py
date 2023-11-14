@@ -2,11 +2,11 @@
 
 """Defines a base model class."""
 import json
-import csv
 from os.path import exists
+import csv
+import turtle
 import time
 from random import random
-
 
 class Base:
     """Base class for other classes."""
