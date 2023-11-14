@@ -1,132 +1,122 @@
 #!/usr/bin/python3
-
-"""sample module."""
-
-import json
-from os.path import exists
-import csv
-import turtle
-import time
-from random import random
+"""Rectangle class module"""
+from models.base import Base
 
 
-class Base:
-    """Base class"""
-    __nb_objects = 0
+class Rectangle(Base):
+    """Rectangle class derived from base"""
 
-    def __init__(self, id=None):
-        """Initialize a new Base object."""
-        if id is None:
-            Base.__nb_objects += 1
-            self.id = Base.__nb_objects
+    def __init__(self, width, height, x=0, y=0, id=None):
+        """Initialize a new Rectangle object."""
+        super().__init__(id)
+        self.width = width
+        self.height = height
+        self.x = x
+        self.y = y
+
+    @property
+    def width(self):
+        """Getter for the width attribute."""
+        return self.__width
+
+    @width.setter
+    def width(self, value):
+        """Setter for the width attribute."""
+        if type(value) is not int:
+            raise TypeError("width must be an integer")
+        if value <= 0:
+            raise ValueError("width must be > 0")
+        self.__width = value
+
+    @property
+    def height(self):
+        """Getter for the height attribute."""
+        return self.__height
+
+    @height.setter
+    def height(self, value):
+        """Setter for the height attribute."""
+        if type(value) is not int:
+            raise TypeError("height must be an integer")
+        if value <= 0:
+            raise ValueError("height must be > 0")
+        self.__height = value
+
+    @property
+    def x(self):
+        """Getter for the x attribute."""
+        return self.__x
+
+    @x.setter
+    def x(self, value):
+        """Setter for the x attribute."""
+        if type(value) is not int:
+            raise TypeError("x must be an integer")
+        if value < 0:
+            raise ValueError("x must be >= 0")
+        self.__x = value
+
+    @property
+    def y(self):
+        """Getter for the y attribute."""
+        return self.__y
+
+    @y.setter
+    def y(self, value):
+        """Setter for the y attribute."""
+        if type(value) is not int:
+            raise TypeError("y must be an integer")
+        if value < 0:
+            raise ValueError("y must be >= 0")
+        self.__y = value
+
+    def area(self):
+        """Calculate the area of the rectangle."""
+        return self.__width * self.__height
+
+    def display(self):
+        """Display the rectangle using '#' characters."""
+        print('\n' * self.__y, end='')
+        for i in range(self.__height):
+            print(' ' * self.__x + '#' * self.__width)
+
+    def __str__(self):
+        """Return a formatted string representation of the object."""
+        id = self.id
+        width = self.width
+        height = self.height
+        x = self.x
+        y = self.y
+        return "[Rectangle] ({}) {}/{} - {}/{}".format(id, x, y, width, height)
+
+    def update(self, *args, **kwargs):
+        """Update the attributes of the object."""
+        if args is not None and len(args) != 0:
+            a = len(args)
+            if a >= 1:
+                self.id = args[0]
+            if a >= 2:
+                self.width = args[1]
+            if a >= 3:
+                self.height = args[2]
+            if a >= 4:
+                self.x = args[3]
+            if a >= 5:
+                self.y = args[4]
         else:
-            self.id = id
+            if "id" in kwargs:
+                self.id = kwargs["id"]
+            if "width" in kwargs:
+                self.width = kwargs["width"]
+            if "height" in kwargs:
+                self.height = kwargs["height"]
+            if "x" in kwargs:
+                self.x = kwargs["x"]
+            if "y" in kwargs:
+                self.y = kwargs["y"]
 
-    @staticmethod
-    def to_json_string(list_dictionaries):
-        """Convert a list of dictionaries to a JSON string."""
-        if list_dictionaries is None or type(list_dictionaries) is not list or len(list_dictionaries) == 0:
-            return "[]"
-        return json.dumps(list_dictionaries)
-
-    @classmethod
-    def save_to_file(cls, list_objs):
-        """Save a list of objects to a JSON file."""
-        name = cls.__name__
-        new_list = []
-        if list_objs is not None:
-            for obj in list_objs:
-                new_list.append(obj.to_dictionary())
-        with open(name + ".json", "w+", encoding="utf-8") as file:
-            file.write(Base.to_json_string(new_list))
-
-    @staticmethod
-    def from_json_string(json_string):
-        """Convert a JSON string to a list of dictionaries."""
-        if json_string is None or type(json_string) is not str or len(json_string) == 0:
-            return []
-        return json.loads(json_string)
-
-    @classmethod
-    def create(cls, **dictionary):
-        """Create a new instance from a dictionary of attributes."""
-        name = cls.__name__
-        if name == "Rectangle":
-            tmp = cls(1, 1)
-        elif name == "Square":
-            tmp = cls(1)
-        else:
-            tmp = None
-        tmp.update(**dictionary)
-        return tmp
-
-    @classmethod
-    def load_from_file(cls):
-        """Load a list of objects from a JSON file."""
-        name = cls.__name__ + ".json"
-        if not exists(name):
-            return []
-        with open(name, "r+", encoding="utf-8") as file:
-            tmp = cls.from_json_string(file.read())
-        obj_list = []
-        for item in tmp:
-            obj_list.append(cls.create(**item))
-        return obj_list
-
-    @classmethod
-    def save_to_file_csv(cls, list_objs):
-        """Save a list of objects to a CSV file."""
-        name = cls.__name__
-        obj_list = []
-        if list_objs is not None:
-            if name == "Rectangle":
-                for obj in list_objs:
-                    obj_list.append([obj.id, obj.width, obj.height, obj.x, obj.y])
-            else:
-                for obj in list_objs:
-                    obj_list.append([obj.id, obj.size, obj.x, obj.y])
-        with open(name + ".csv", "w+", encoding="utf-8", newline='') as file:
-            writer = csv.writer(file)
-            writer.writerows(obj_list)
-
-    @classmethod
-    def load_from_file_csv(cls):
-        """Load a list of objects from a CSV file."""
-        name = cls.__name__
-        if not exists(name + ".csv"):
-            return []
-        with open(name + ".csv", "r+", encoding="utf-8", newline='') as file:
-            reader = csv.reader(file)
-            obj_list = []
-            for row in reader:
-                row = [int(i) for i in row]
-                if name == "Rectangle":
-                    attributes = {"id": row[0], "width": row[1], "height": row[2], "x": row[3], "y": row[4]}
-                elif name == "Square":
-                    attributes = {"id": row[0], "size": row[1], "x": row[2], "y": row[3]}
-                else:
-                    return []
-                obj_list.append(cls.create(**attributes))
-        return obj_list
-
-    @staticmethod
-    def draw(list_rectangles, list_squares):
-        """Draw rectangles and squares using the turtle module."""
-        shapes = list_rectangles + list_squares
-        for shape in shapes:
-            draw = turtle.Turtle()
-            draw.color(random(), random(), random())
-            draw.setpos(-shape.x, -shape.y)
-            draw.pensize(7)
-            draw.pendown()
-            draw.forward(shape.width)
-            draw.right(90)
-            draw.forward(shape.height)
-            draw.right(90)
-            draw.forward(shape.width)
-            draw.right(90)
-            draw.forward(shape.height)
-            draw.right(90)
-            draw.end_fill()
-
-        time.sleep(10)
+    def to_dictionary(self):
+        """Return the object as a dictionary."""
+        return {"id": self.id, "width": self.width,
+                "height": self.height, "x": self.x,
+                "y": self.y}
