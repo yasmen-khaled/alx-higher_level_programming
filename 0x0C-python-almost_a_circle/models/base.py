@@ -8,6 +8,7 @@ import turtle
 import time
 from random import random
 
+
 class Base:
     """Base class for other classes."""
 
