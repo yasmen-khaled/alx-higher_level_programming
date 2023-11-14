@@ -1,12 +1,11 @@
 #!/usr/bin/python3
 
-"""Defines a base model class."""
 import json
-from os.path import exists
 import csv
 import turtle
-import time
 from random import random
+import time
+from os.path import exists
 
 
 class Base:
