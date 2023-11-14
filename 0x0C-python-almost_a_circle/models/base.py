@@ -1,3 +1,4 @@
+change names of varibals and comments
 #!/usr/bin/python3
 
 """Defines a base model class."""
@@ -23,22 +24,22 @@ class Base:
             self.id = Base.__nb_objects
 
     @staticmethod
-    def to_json_string(list_of_dictionaries):
+    def to_json_string(list_dictionaries):
         """Convert a list of dictionaries to a JSON string."""
-        if list_of_dictionaries is None or list_of_dictionaries == []:
+        if list_dictionaries is None or list_dictionaries == []:
             return "[]"
-        return json.dumps(list_of_dictionaries)
+        return json.dumps(list_dictionaries)
 
     @classmethod
-    def save_to_file(cls, list_of_objects):
+    def save_to_file(cls, list_objs):
         """Save a list of objects to a JSON file."""
         filename = cls.__name__ + ".json"
-        with open(filename, "w") as json_file:
-            if list_of_objects is None:
-                json_file.write("[]")
+        with open(filename, "w") as jsonfile:
+            if list_objs is None:
+                jsonfile.write("[]")
             else:
-                list_of_dicts = [o.to_dictionary() for o in list_of_objects]
-                json_file.write(Base.to_json_string(list_of_dicts))
+                list_dicts = [o.to_dictionary() for o in list_objs]
+                jsonfile.write(Base.to_json_string(list_dicts))
 
     @staticmethod
     def from_json_string(json_string):
@@ -52,38 +53,38 @@ class Base:
         """Create a new instance of the class from a dictionary."""
         if dictionary and dictionary != {}:
             if cls.__name__ == "Rectangle":
-                new_instance = cls(1, 1)
+                new = cls(1, 1)
             else:
-                new_instance = cls(1)
-            new_instance.update(**dictionary)
-            return new_instance
+                new = cls(1)
+            new.update(**dictionary)
+            return new
 
     @classmethod
     def load_from_file(cls):
         """Load a list of objects from a JSON file."""
         filename = str(cls.__name__) + ".json"
         try:
-            with open(filename, "r") as json_file:
-                list_of_dicts = Base.from_json_string(json_file.read())
-                return [cls.create(**d) for d in list_of_dicts]
+            with open(filename, "r") as jsonfile:
+                list_dicts = Base.from_json_string(jsonfile.read())
+                return [cls.create(**d) for d in list_dicts]
         except IOError:
             return []
 
     @classmethod
-    def save_to_file_csv(cls, list_of_objects):
+    def save_to_file_csv(cls, list_objs):
         """Save a list of objects to a CSV file."""
         name = cls.__name__
-        data = []
-        if list_of_objects is not None:
+       list = []
+        if list_objs is not None:
             if name == "Rectangle":
-                for obj in list_of_objects:
-                    data.append([obj.id, obj.width, obj.height, obj.x, obj.y])
+                for a in list_objs:
+                    list.append([a.id, a.width, a.height, a.x, a.y])
             else:
-                for obj in list_of_objects:
-                    data.append([obj.id, obj.size, obj.x, obj.y])
+                for a in list_objs:
+                    list.append([a.id, a.size, a.x, a.y])
         with open(name + ".csv", "w+", encoding="utf-8", newline='') as file:
             writer = csv.writer(file)
-            writer.writerows(data)
+            writer.writerows(list)
 
     @classmethod
     def load_from_file_csv(cls):
@@ -92,38 +93,38 @@ class Base:
         if not exists(name + ".csv"):
             return []
         with open(name + ".csv", "r+", encoding="utf-8", newline='') as file:
-            reader = csv.reader(file)
-            data = []
-            for row in reader:
-                row = [int(i) for i in row]
+            tmp = csv.reader(file)
+            list = []
+            for a in tmp:
+                a = [int(i) for i in a]
                 if name == "Rectangle":
-                    dictionary = {"id": row[0], "width": row[1], "height": row[2],
-                           "x": row[3], "y": row[4]}
+                    dic = {"id": a[0], "width": a[1], "height": a[2],
+                           "x": a[3], "y": a[4]}
                 elif name == "Square":
-                    dictionary = {"id": row[0], "size": row[1], "x": row[2], "y": row[3]}
+                    dic = {"id": a[0], "size": a[1], "x": a[2], "y": a[3]}
                 else:
                     return []
-                data.append(cls.create(**dictionary))
-        return data
+                list.append(cls.create(**dic))
+        return list
 
     @staticmethod
-    def draw(list_of_rectangles, list_of_squares):
+    def draw(list_rectangles, list_squares):
         """Draw rectangles and squares using the turtle module."""
-        shapes = list_of_rectangles + list_of_squares
-        for shape in shapes:
-            draw_turtle = turtle.Turtle()
-            draw_turtle.color(random(), random(), random())
-            draw_turtle.setpos(-shape.x, -shape.y)
-            draw_turtle.pensize(7)
-            draw_turtle.pendown()
-            draw_turtle.forward(shape.width)
-            draw_turtle.right(90)
-            draw_turtle.forward(shape.height)
-            draw_turtle.right(90)
-            draw_turtle.forward(shape.width)
-            draw_turtle.right(90)
-            draw_turtle.forward(shape.height)
-            draw_turtle.right(90)
-            draw_turtle.end_fill()
+        shapes = list_rectangles + list_squares
+        for a in shapes:
+            _draw = turtle.Turtle()
+            _draw.color(random(), random(), random())
+            _draw.setpos(-a.x, -a.y)
+            _draw.pensize(7)
+            _draw.pendown()
+            _draw.forward(a.width)
+            _draw.right(90)
+            _draw.forward(a.height)
+            _draw.right(90)
+            _draw.forward(a.width)
+            _draw.right(90)
+            _draw.forward(a.height)
+            _draw.right(90)
+            _draw.end_fill()
 
         time.sleep(10)
