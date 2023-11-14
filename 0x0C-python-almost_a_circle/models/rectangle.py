@@ -9,10 +9,10 @@ class Rectangle(Base):
     def __init__(self, width, height, x=0, y=0, id=None):
         """Initialize a new Rectangle object."""
         super().__init__(id)
-        self.width = width
-        self.height = height
-        self.x = x
-        self.y = y
+        self.__width = width
+        self.__height = height
+        self.__x = x
+        self.__y = y
 
     @property
     def width(self):
@@ -83,10 +83,10 @@ class Rectangle(Base):
     def __str__(self):
         """Return a formatted string representation of the object."""
         id = self.id
-        width = self.width
-        height = self.height
-        x = self.x
-        y = self.y
+        width = self.__width
+        height = self.__height
+        x = self.__x
+        y = self.__y
         return "[Rectangle] ({}) {}/{} - {}/{}".format(id, x, y, width, height)
 
     def update(self, *args, **kwargs):
@@ -96,27 +96,27 @@ class Rectangle(Base):
             if a >= 1:
                 self.id = args[0]
             if a >= 2:
-                self.width = args[1]
+                self.__width = args[1]
             if a >= 3:
-                self.height = args[2]
+                self.__height = args[2]
             if a >= 4:
-                self.x = args[3]
+                self.__x = args[3]
             if a >= 5:
-                self.y = args[4]
+                self.__y = args[4]
         else:
             if "id" in kwargs:
                 self.id = kwargs["id"]
             if "width" in kwargs:
-                self.width = kwargs["width"]
+                self.__width = kwargs["width"]
             if "height" in kwargs:
-                self.height = kwargs["height"]
+                self.__height = kwargs["height"]
             if "x" in kwargs:
-                self.x = kwargs["x"]
+                self.__x = kwargs["x"]
             if "y" in kwargs:
-                self.y = kwargs["y"]
+                self.__y = kwargs["y"]
 
     def to_dictionary(self):
         """Return the object as a dictionary."""
-        return {"id": self.id, "width": self.width,
-                "height": self.height, "x": self.x,
-                "y": self.y}
+        return {"id": self.id, "width": self.__width,
+                "height": self.__height, "x": self.__x,
+                "y": self.__y}
