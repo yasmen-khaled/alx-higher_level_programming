@@ -39,17 +39,3 @@ if __name__ == "__main__":
 
     for square in list_squares_output:
         print("[{}] {}".format(id(square), square))
-
-guillaume@ubuntu:~/$ ./100-main.py
-[140268695797600] [Rectangle] (1) 2/8 - 10/7
-[140268695797656] [Rectangle] (2) 0/0 - 2/4
----
-[140268695529008] [Rectangle] (1) 2/8 - 10/7
-[140268695528952] [Rectangle] (2) 0/0 - 2/4
----
----
-[140268695822520] [Square] (5) 0/0 - 5
-[140268695826328] [Square] (6) 9/1 - 7
----
-[140268695529232] [Square] (5) 0/0 - 5
-[140268695529176] [Square] (6) 9/1 - 7
