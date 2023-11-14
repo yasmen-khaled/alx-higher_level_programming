@@ -4,7 +4,6 @@
 import json
 import csv
 from os.path import exists
-import turtle
 import time
 from random import random
 
