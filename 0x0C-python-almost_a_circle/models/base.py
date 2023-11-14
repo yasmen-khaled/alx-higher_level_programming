@@ -74,17 +74,17 @@ class Base:
     def save_to_file_csv(cls, list_objs):
         """Save a list of objects to a CSV file."""
         name = cls.__name__
-       list = []
+        ls = []
         if list_objs is not None:
             if name == "Rectangle":
                 for a in list_objs:
-                    list.append([a.id, a.width, a.height, a.x, a.y])
+                    ls.append([a.id, a.width, a.height, a.x, a.y])
             else:
                 for a in list_objs:
-                    list.append([a.id, a.size, a.x, a.y])
+                    ls.append([a.id, a.size, a.x, a.y])
         with open(name + ".csv", "w+", encoding="utf-8", newline='') as file:
             writer = csv.writer(file)
-            writer.writerows(list)
+            writer.writerows(ls)
 
     @classmethod
     def load_from_file_csv(cls):
@@ -94,7 +94,7 @@ class Base:
             return []
         with open(name + ".csv", "r+", encoding="utf-8", newline='') as file:
             tmp = csv.reader(file)
-            list = []
+            ls = []
             for a in tmp:
                 a = [int(i) for i in a]
                 if name == "Rectangle":
@@ -104,27 +104,27 @@ class Base:
                     dic = {"id": a[0], "size": a[1], "x": a[2], "y": a[3]}
                 else:
                     return []
-                list.append(cls.create(**dic))
-        return list
+                ls.append(cls.create(**dic))
+        return ls
 
     @staticmethod
     def draw(list_rectangles, list_squares):
         """Draw rectangles and squares using the turtle module."""
         shapes = list_rectangles + list_squares
         for a in shapes:
-            _draw = turtle.Turtle()
-            _draw.color(random(), random(), random())
-            _draw.setpos(-a.x, -a.y)
-            _draw.pensize(7)
-            _draw.pendown()
-            _draw.forward(a.width)
-            _draw.right(90)
-            _draw.forward(a.height)
-            _draw.right(90)
-            _draw.forward(a.width)
-            _draw.right(90)
-            _draw.forward(a.height)
-            _draw.right(90)
-            _draw.end_fill()
+            draw = turtle.Turtle()
+            draw.color(random(), random(), random())
+            draw.setpos(-a.x, -a.y)
+            draw.pensize(7)
+            draw.pendown()
+            draw.forward(a.width)
+            draw.right(90)
+            draw.forward(a.height)
+            draw.right(90)
+            draw.forward(a.width)
+            draw.right(90)
+            draw.forward(a.height)
+            draw.right(90)
+            draw.end_fill()
 
         time.sleep(10)
