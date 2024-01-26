@@ -1,5 +1,7 @@
 #!/usr/bin/python3
-""" Takes in a URL """
+""" Takes in a URL and sends a request to the URL
+and displays the body of the response (decoded in utf-8)
+"""
 
 import urllib.request
 import sys
